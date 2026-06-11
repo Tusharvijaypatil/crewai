@@ -1,0 +1,27 @@
+# Keep the build context small and reproducible.
+.venv/
+venv/
+.git/
+.github/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local state — rebuilt inside the container at startup.
+.chroma/
+.hf_cache/
+*.sqlite3
+*.db
+
+# Secrets — never bake into the image.
+.env
+
+# Docs / dev-only
+*.md
+!README.md
+tests/
+.idea/
+.vscode/
+.DS_Store

@@ -1,0 +1,36 @@
+# Nimbus Support Triage Crew — local stack.
+#   docker compose up --build
+# Runs the API on http://localhost:8000 (docs at /docs), fully offline by default.
+
+services:
+  api:
+    build: .
+    image: nimbus-triage-crew:latest
+    ports:
+      - "8000:8000"
+    environment:
+      # Defaults run with zero keys, zero cost. To use real models, set:
+      #   LLM_PROVIDER: openai
+      #   OPENAI_API_KEY: ${OPENAI_API_KEY}
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      CONFIDENCE_THRESHOLD: ${CONFIDENCE_THRESHOLD:-75}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DATABASE_URL: sqlite:////app/data/nimbus.sqlite3
+    volumes:
+      # Persist the vector store, model cache, and DB across restarts.
+      - nimbus_chroma:/app/.chroma
+      - nimbus_hf:/app/.hf_cache
+      - nimbus_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+volumes:
+  nimbus_chroma:
+  nimbus_hf:
+  nimbus_data:
