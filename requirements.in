@@ -1,0 +1,36 @@
+# Human-edited dependency source. Pinned, reproducible versions are frozen into
+# requirements.txt by `make install` (pip install -r requirements.in then freeze).
+#
+# crewai owns the shared/transitive heavy deps (chromadb, pydantic, openai via
+# litellm, opentelemetry). We pin ONLY crewai + crewai-tools and let pip resolve
+# the rest to compatible versions, then lock the exact set in requirements.txt.
+
+# ---- Core framework ----
+crewai==1.14.6
+crewai-tools==1.14.6
+
+# ---- API ----
+fastapi
+uvicorn[standard]
+python-multipart
+
+# ---- Config / validation ----
+pydantic-settings
+python-dotenv
+
+# ---- RAG: embeddings + vector stores (chromadb comes via crewai) ----
+sentence-transformers
+pinecone
+
+# ---- Storage ----
+SQLAlchemy
+
+# ---- Resilience ----
+tenacity
+
+# ---- Tests ----
+pytest
+httpx
+
+# ---- Observability (OPTIONAL): install separately to avoid OTel pin clashes ----
+# pip install langfuse
