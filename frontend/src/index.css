@@ -1,0 +1,236 @@
+@import 'tailwindcss';
+
+/* Class-based dark variant (the app is dark-first; .dark lives on <html>). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS — defined once. Nimbus brand: deep ink base, iris→aqua
+   signature gradient, emerald/amber/rose semantics. Space Grotesk + Geist.
+   ───────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Surfaces (ink) */
+  --color-ink-950: #07080c;
+  --color-ink-900: #0b0d12; /* page bg */
+  --color-ink-850: #0e1118;
+  --color-ink-800: #11141b; /* card / surface */
+  --color-ink-750: #141823;
+  --color-ink-700: #171b25; /* raised */
+  --color-ink-600: #1d2231;
+  --color-ink-500: #272d3f;
+
+  /* Lines */
+  --color-line: #222838;
+  --color-line-soft: #191d28;
+  --color-line-strong: #2e3854;
+
+  /* Foreground */
+  --color-fg: #e8ebf2;
+  --color-fg-muted: #9aa3b6;
+  --color-fg-dim: #6a7184;
+
+  /* Brand — iris (primary) + aqua (companion) */
+  --color-iris-300: #c4baff;
+  --color-iris-400: #a99bff;
+  --color-iris-500: #8e7bff;
+  --color-iris-600: #7765f0;
+  --color-iris-700: #5e4cd6;
+  --color-aqua-300: #a6f4f2;
+  --color-aqua-400: #7eeef0;
+  --color-aqua-500: #5be1e6;
+  --color-aqua-600: #36c6cf;
+
+  /* Semantics */
+  --color-emerald-400: #5ce0a3;
+  --color-emerald-500: #3ecf8e; /* resolved / success */
+  --color-emerald-600: #29b779;
+  --color-amber-400: #ffce6b;
+  --color-amber-500: #f4b740; /* review / escalate */
+  --color-amber-600: #e09c1f;
+  --color-rose-400: #ff8a96;
+  --color-rose-500: #fb6a78; /* danger / P1 */
+  --color-rose-600: #ea4c5c;
+
+  /* Type */
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 9px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-2xl: 28px;
+
+  /* Shadows / glow */
+  --shadow-glow-iris: 0 0 0 1px color-mix(in oklab, var(--color-iris-500) 30%, transparent),
+    0 8px 40px -8px color-mix(in oklab, var(--color-iris-500) 45%, transparent);
+  --shadow-card: 0 1px 0 0 rgba(255, 255, 255, 0.03) inset, 0 14px 40px -24px rgba(0, 0, 0, 0.8);
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Animations */
+  --animate-shimmer: shimmer 2.2s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.4s var(--ease-out-expo) infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background-color: var(--color-ink-900);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--color-iris-500) 40%, transparent);
+    color: #fff;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-600);
+    border-radius: 99px;
+    border: 2px solid var(--color-ink-900);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-500);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-iris-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   UTILITIES — signature looks (gradient text, glass, grid, glow, shimmer)
+   ───────────────────────────────────────────────────────────────────────── */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(100deg, var(--color-iris-400), var(--color-aqua-400));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-gradient-soft {
+    background: linear-gradient(120deg, var(--color-fg), var(--color-fg-muted));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-iris-aqua {
+    background: linear-gradient(100deg, var(--color-iris-500), var(--color-aqua-500));
+  }
+  .glass {
+    background: color-mix(in oklab, var(--color-ink-800) 70%, transparent);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+  }
+  .surface-card {
+    background: linear-gradient(180deg, var(--color-ink-800), var(--color-ink-850));
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+  .ring-glow {
+    box-shadow: var(--shadow-glow-iris);
+  }
+  .grid-bg {
+    background-image: linear-gradient(var(--color-line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line-soft) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+  .aurora {
+    background:
+      radial-gradient(40% 50% at 15% 10%, color-mix(in oklab, var(--color-iris-500) 35%, transparent), transparent 70%),
+      radial-gradient(35% 45% at 85% 5%, color-mix(in oklab, var(--color-aqua-500) 26%, transparent), transparent 70%),
+      radial-gradient(45% 60% at 60% 100%, color-mix(in oklab, var(--color-iris-700) 22%, transparent), transparent 70%);
+  }
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--color-fg) 8%, transparent),
+      transparent
+    );
+    animation: var(--animate-shimmer);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

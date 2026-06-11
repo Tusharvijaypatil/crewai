@@ -193,6 +193,26 @@ Logical scoped commits throughout. No GitHub remote / push until explicitly appr
 
 ---
 
+## ✅ Phase 11 — Frontend (React + Vite + TS + Tailwind) — COMPLETE
+
+A portfolio-grade web app in `frontend/` — marketing landing + product dashboard — built against the **real** API contract with a mock-data layer so it demos fully offline.
+
+**Delivered**
+- **Design system** (`src/index.css`): Tailwind v4 `@theme` tokens — deep ink base, iris→aqua signature gradient, emerald/amber/rose semantics; Space Grotesk + Geist + Geist Mono (fontsource, offline). Dark-first. Custom utilities (gradient text, glass, grid-bg, aurora, shimmer). `prefers-reduced-motion` respected.
+- **Data layer**: typed client mirroring the Pydantic DTOs (`lib/types.ts`), a `VITE_USE_MOCKS` switch (`lib/api.ts`), an in-memory mock pipeline mirroring the backend (`lib/mocks.ts`), TanStack Query hooks with optimistic queue updates (`lib/queries.ts`). Vite proxies `/api → :8000`.
+- **Landing** (`/`): hero + animated product mock, the signature **5-stage animated pipeline diagram**, metrics strip, feature grid, how-it-works, pricing, FAQ, footer.
+- **Dashboard** (`/app`): Overview (KPIs + recent tickets + SVG confidence trend), Submit (form + live pipeline animation + result), **Ticket detail** (the hero — full agent-trace stepper: classify → retrieve → draft → QA → route with the human-readable routing reason), Review queue (approve/reject/edit via Radix dialog, optimistic + sonner toasts), Health & KB (config cards + ingest with progress).
+- Loading skeletons, empty states, error states throughout; responsive mobile→desktop; keyboard/focus states; animated route transitions.
+- `make web` target; `frontend/.env.example`.
+
+**Verified**: `npm run build` (tsc typecheck + vite production bundle) passes clean. Runs at `make web` (Vite :5173) — fully in mock mode with the backend off, or live via the `/api` proxy.
+
+**Deploy-ready (static demo)**: route-level code-splitting (entry 207→123 kB gzip; dashboard screens lazy chunks), template files removed, mock fixtures/copy content pass (metrics match the real eval: 67% resolve), `netlify.toml` at repo root (base `frontend/`, SPA redirect, `VITE_USE_MOCKS=true`), README deploy section.
+
+**Note:** backend logic untouched.
+
+---
+
 ## Resume note
 Next session in this folder: **resume from Phase 10 (git checkpoint)**. Read `CLAUDE.md` + this file first.
 The `.venv` is already built and dependencies installed; `make ingest`/`make run` are wired and the

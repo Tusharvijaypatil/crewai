@@ -10,7 +10,7 @@ else
 endif
 
 .DEFAULT_GOAL := help
-.PHONY: help venv install ingest run test eval lint clean
+.PHONY: help venv install ingest run test eval lint clean web web-install
 
 help: ## Show this help.
 	@echo "Nimbus Support Triage Crew — make targets:"
@@ -41,6 +41,12 @@ test: ## Run the test suite (offline, mocked LLM).
 
 eval: ## Run the eval harness and print metrics.
 	$(PY) -m evals.run_eval
+
+web: ## Start the React frontend (Vite dev server on :5173, proxies /api -> :8000).
+	cd frontend && npm install && npm run dev
+
+web-install: ## Install frontend dependencies only.
+	cd frontend && npm install
 
 lint: ## Lint the codebase.
 	$(PY) -m ruff check app evals tests

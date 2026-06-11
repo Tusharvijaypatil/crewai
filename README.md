@@ -99,6 +99,40 @@ Everything above needs **no API key**. To exercise the real pipeline, set `LLM_P
 docker compose up --build      # ingests the KB, then serves the API on :8000
 ```
 
+### Web app (React frontend)
+
+A polished marketing landing page + product dashboard live in [`frontend/`](frontend/) (React 19 +
+Vite + TypeScript + Tailwind v4, framer-motion, TanStack Query, Radix).
+
+```bash
+make web        # cd frontend && npm install && npm run dev  → http://localhost:5173
+```
+
+- Runs **fully offline** by default via a mock-data layer (`VITE_USE_MOCKS=true`) — no backend needed.
+- Set `VITE_USE_MOCKS=false` (in `frontend/.env.local`) to drive the **live** FastAPI pipeline; the Vite
+  dev server proxies `/api → http://localhost:8000`.
+- **Landing** at `/` — hero, an animated 5-stage pipeline diagram, features, pricing, FAQ.
+- **Dashboard** at `/app` — overview KPIs, submit-ticket with a live pipeline animation, a ticket-detail
+  **agent trace** (classify → retrieve → draft → QA → route), and a human review queue with
+  approve / reject / edit.
+
+#### Deploying the demo (static, no backend)
+
+The frontend deploys as a static SPA in mock mode — the full product demo with zero
+infrastructure. A [`netlify.toml`](netlify.toml) is included (base `frontend/`, build
+`npm run build`, publish `dist/`, SPA redirect, `VITE_USE_MOCKS=true`):
+
+```bash
+# Netlify
+netlify deploy --prod          # or connect the repo in the Netlify UI — config is picked up
+
+# Any static host (Vercel/Pages/S3): build and upload frontend/dist,
+# with a catch-all rewrite of /* -> /index.html for client-side routing
+cd frontend && npm run build
+```
+
+The dashboard's route chunks are lazy-loaded, so the landing page ships a minimal bundle.
+
 ---
 
 ## API

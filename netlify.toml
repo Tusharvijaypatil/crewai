@@ -1,0 +1,18 @@
+# Netlify config — deploys the frontend as a static, mock-first demo.
+# The dashboard runs entirely on the in-browser mock pipeline (no backend, $0).
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Force demo mode: the static site has no FastAPI behind it.
+  VITE_USE_MOCKS = "true"
+  NODE_VERSION = "22"
+
+# SPA fallback — client-side routes (/app, /app/tickets/:id, …) resolve to index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
