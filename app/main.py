@@ -65,12 +65,11 @@ def create_app() -> FastAPI:
             "confidence_threshold": settings.confidence_threshold,
         }
 
-    from app.api import routes_ingest
+    from app.api import routes_ingest, routes_tickets
 
+    app.include_router(routes_tickets.router)
     app.include_router(routes_ingest.router)
-    # Routers mounted in later phases:
-    #   app.include_router(routes_tickets.router)
-    #   app.include_router(routes_escalations.router)
+    # routes_escalations mounted in Phase 6.
 
     return app
 
