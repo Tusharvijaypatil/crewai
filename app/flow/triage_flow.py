@@ -158,6 +158,18 @@ def run_triage(
     decision = flow.decision()
     st.usage.log(ticket.id or "unknown")
 
+    from app.services.observability import get_observability
+
+    get_observability(settings).record_triage(
+        ticket_id=ticket.id or "unknown",
+        classification=st.classification,
+        retrieval=st.retrieval,
+        draft=st.draft,
+        qa=st.qa,
+        decision=decision,
+        usage=st.usage,
+    )
+
     row = storage.save_result(
         ticket=ticket,
         classification=st.classification,
