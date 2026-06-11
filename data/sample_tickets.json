@@ -1,0 +1,86 @@
+[
+  {
+    "id": "T-001",
+    "subject": "Password reset email never arrives",
+    "body": "Hi, I clicked 'forgot password' three times but no email ever shows up. I checked spam too. How long does the reset link last and what am I doing wrong? I just need to get back into my account.",
+    "channel": "email",
+    "customer_tier": "starter"
+  },
+  {
+    "id": "T-002",
+    "subject": "What are the API rate limits on Pro?",
+    "body": "We're on the Pro plan and want to know the exact API rate limit per minute and what the burst allowance is before we get throttled. Also which headers tell us how many requests we have left?",
+    "channel": "email",
+    "customer_tier": "pro"
+  },
+  {
+    "id": "T-003",
+    "subject": "Refund for annual Pro plan bought 5 days ago",
+    "body": "I upgraded to the annual Pro plan five days ago but my team decided to go another direction. Can I get a refund? It was an annual subscription.",
+    "channel": "email",
+    "customer_tier": "pro"
+  },
+  {
+    "id": "T-004",
+    "subject": "How do I connect Nimbus to Slack?",
+    "body": "I'd like failure notifications to post into our #ops Slack channel. What are the steps to connect Slack, and is it available on the Starter plan?",
+    "channel": "chat",
+    "customer_tier": "starter"
+  },
+  {
+    "id": "T-005",
+    "subject": "URGENT: all production deployments failing, we are DOWN",
+    "body": "Every single workflow is failing in production right now and our customers are affected. This is costing us money every minute. We are an Enterprise customer with an SLA. Fix this NOW or we are escalating to our account manager and legal.",
+    "channel": "phone",
+    "customer_tier": "enterprise"
+  },
+  {
+    "id": "T-006",
+    "subject": "Delete all my personal data under GDPR",
+    "body": "Under GDPR Article 17 I am formally requesting that you delete my account and erase all personal data you hold about me. Please confirm in writing once this is completed.",
+    "channel": "email",
+    "customer_tier": "free"
+  },
+  {
+    "id": "T-007",
+    "subject": "Difference between Starter and Pro?",
+    "body": "Trying to decide whether to upgrade. What do I actually get going from Starter to Pro — seats, workflows, support response time? And does Pro include SSO?",
+    "channel": "chat",
+    "customer_tier": "starter"
+  },
+  {
+    "id": "T-008",
+    "subject": "Getting intermittent 429 errors",
+    "body": "Our integration sometimes gets HTTP 429 responses even though we don't think we're sending that many requests. What's the right way to handle this and why does it happen intermittently?",
+    "channel": "email",
+    "customer_tier": "pro"
+  },
+  {
+    "id": "T-009",
+    "subject": "Add a Terraform provider for Nimbus",
+    "body": "We manage everything as code. Do you have a Terraform provider so we can define Nimbus workflows in HCL? If not, is there any supported workaround today?",
+    "channel": "email",
+    "customer_tier": "pro"
+  },
+  {
+    "id": "T-010",
+    "subject": "I was double charged this month",
+    "body": "My credit card shows two identical charges for my Pro subscription this month. I only have one account. Please refund the duplicate. Invoice numbers are in my billing history.",
+    "channel": "email",
+    "customer_tier": "pro"
+  },
+  {
+    "id": "T-011",
+    "subject": "Where do I download my invoices?",
+    "body": "Our finance team needs PDF copies of our past invoices for expense reporting. Where in the dashboard can I find and download them?",
+    "channel": "chat",
+    "customer_tier": "starter"
+  },
+  {
+    "id": "T-012",
+    "subject": "Are you SOC 2 compliant and do you have a DPA?",
+    "body": "Our security team is reviewing vendors. Is Nimbus SOC 2 compliant, and do you offer a Data Processing Addendum for GDPR? How do we obtain copies of both?",
+    "channel": "email",
+    "customer_tier": "enterprise"
+  }
+]
