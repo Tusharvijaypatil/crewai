@@ -2,9 +2,9 @@
 
 Live build status. **Updated at the end of every phase.** See `CLAUDE.md` for the full plan.
 
-**Real OpenAI spend so far: $0.00** (mock-by-default; no live calls yet).
+**Real OpenAI spend so far: $0.003** (of the $2 budget — one 2-ticket live smoke test; everything else ran mock).
 
-**Current phase: 9 of 10 complete.**
+**Build complete: all 10 backend phases done, plus Phase 11 (frontend). Verified live end-to-end.**
 
 ---
 
@@ -188,33 +188,43 @@ README (mermaid + samples + eval table + design decisions), Dockerfile, docker-c
 - README is honest about mock-vs-real: the 100% mock metrics measure the harness/routing, not a model; it documents the `--provider openai` checkpoint for real numbers.
 - The container builds the Chroma store at startup (idempotent, offline) so the image is reproducible and key-free.
 
-## ⬜ Phase 10 — Git — PENDING
-Logical scoped commits throughout. No GitHub remote / push until explicitly approved.
+## ✅ Phase 10 — Git — COMPLETE
+Nine logical scoped commits (Phases 1–9), clean tree, no secrets tracked. Pushed manually by the user to `github.com/Tusharvijaypatil/crewai` (remote added by the user). Phase 11 committed locally as `e51dc80`.
 
 ---
 
-## ✅ Phase 11 — Frontend (React + Vite + TS + Tailwind) — COMPLETE
+## ✅ Phase 11 — Frontend — COMPLETE
 
-A portfolio-grade web app in `frontend/` — marketing landing + product dashboard — built against the **real** API contract with a mock-data layer so it demos fully offline.
+React + Vite + TS + Tailwind v4 app in `frontend/`: marketing landing + product dashboard, built against the real API contract, mock-first.
 
 **Delivered**
-- **Design system** (`src/index.css`): Tailwind v4 `@theme` tokens — deep ink base, iris→aqua signature gradient, emerald/amber/rose semantics; Space Grotesk + Geist + Geist Mono (fontsource, offline). Dark-first. Custom utilities (gradient text, glass, grid-bg, aurora, shimmer). `prefers-reduced-motion` respected.
-- **Data layer**: typed client mirroring the Pydantic DTOs (`lib/types.ts`), a `VITE_USE_MOCKS` switch (`lib/api.ts`), an in-memory mock pipeline mirroring the backend (`lib/mocks.ts`), TanStack Query hooks with optimistic queue updates (`lib/queries.ts`). Vite proxies `/api → :8000`.
-- **Landing** (`/`): hero + animated product mock, the signature **5-stage animated pipeline diagram**, metrics strip, feature grid, how-it-works, pricing, FAQ, footer.
-- **Dashboard** (`/app`): Overview (KPIs + recent tickets + SVG confidence trend), Submit (form + live pipeline animation + result), **Ticket detail** (the hero — full agent-trace stepper: classify → retrieve → draft → QA → route with the human-readable routing reason), Review queue (approve/reject/edit via Radix dialog, optimistic + sonner toasts), Health & KB (config cards + ingest with progress).
-- Loading skeletons, empty states, error states throughout; responsive mobile→desktop; keyboard/focus states; animated route transitions.
-- `make web` target; `frontend/.env.example`.
+- **Design system**: Tailwind `@theme` tokens — deep-ink base, iris→aqua signature gradient, emerald/amber/rose semantics; Space Grotesk + Geist + Geist Mono (fontsource, offline); dark-first; `prefers-reduced-motion` respected.
+- **Landing** (`/`): hero, **animated 5-stage pipeline diagram** (the signature visual), metrics strip, feature grid, how-it-works, pricing, FAQ, footer.
+- **Dashboard** (`/app`): Overview (KPI cards + confidence trend), Submit (form with live pipeline animation), **Ticket detail — the agent-trace stepper** (classify → retrieve → draft → QA → route with human-readable routing reasons), Escalation review queue (approve/reject/edit via Radix dialog, optimistic updates + sonner toasts), Health & KB ingest panels.
+- Loading skeletons / empty / error states throughout; responsive; keyboard + focus states.
+- **Mock-first layer** (`VITE_USE_MOCKS`, default true) — the whole app demos at $0 with no backend; flips to the live FastAPI via the Vite `/api → :8000` proxy.
+- **Lazy-loaded dashboard routes** (entry bundle 207 → 123 kB gzip); `netlify.toml` static-demo deploy config (base `frontend/`, SPA redirect, mocks forced on); `make web` target; README "Web app" + "Deploying the demo" sections.
 
-**Verified**: `npm run build` (tsc typecheck + vite production bundle) passes clean. Runs at `make web` (Vite :5173) — fully in mock mode with the backend off, or live via the `/api` proxy.
+**Verified**
+- `npm run build` clean (tsc typecheck + vite production bundle, no warnings).
+- Committed locally as Phase 11 (`e51dc80`).
 
-**Deploy-ready (static demo)**: route-level code-splitting (entry 207→123 kB gzip; dashboard screens lazy chunks), template files removed, mock fixtures/copy content pass (metrics match the real eval: 67% resolve), `netlify.toml` at repo root (base `frontend/`, SPA redirect, `VITE_USE_MOCKS=true`), README deploy section.
+**Verified live** (2-ticket real-OpenAI smoke test through the frontend's `/api` proxy)
+- **Ticket 1** "Refund window for annual plans?" → **RESOLVED**: grounded reply citing `05-refund-policy.md`, QA passed (grounded/tone/complete, confidence 100). Real model reclassified P4→**P2** vs. mock — did not affect routing.
+- **Ticket 2** "P1 outage" → **PENDING_REVIEW** via the deterministic `priority_P1` gate, despite a passing 95-confidence draft — exactly the designed human-in-the-loop behavior.
+- Known sharp edge: the real model wrote *supportive verification notes* into QA `issues[]` instead of problems — harmless here (issues[] doesn't drive routing), flagged for a future prompt tweak.
+- **Total real spend: $0.003** of the $2 budget. Frontend reverted to `VITE_USE_MOCKS=true` afterward.
 
-**Note:** backend logic untouched.
+**Key decisions**
+- Mock-first default keeps the public demo free and backendless — the static deploy is the full product experience.
+- The agent-trace visualization is the hero screen: it makes the routing logic legible, which is the product's whole argument.
+- Content pass aligned metrics/pricing to the real eval (67% resolve = 12/18) and the KB's own facts — nothing reads as placeholder.
+- Brand is dark-first with a signature iris→aqua gradient (deliberately not default-Tailwind).
 
 ---
 
-## Resume note
-Next session in this folder: **resume from Phase 10 (git checkpoint)**. Read `CLAUDE.md` + this file first.
-The `.venv` is already built and dependencies installed; `make ingest`/`make run` are wired and the
-Chroma store + `nimbus.sqlite3` are populated. Phases 1–6 are complete; no git commits since Phase 3
-work was last staged (no commits were ever finalized — the repo has 3 commits through Phase 3).
+## Status: build complete
+
+Backend phases 1–10 ✅ and frontend Phase 11 ✅, verified live end-to-end (real OpenAI run, $0.003 total spend).
+Remaining steps are user-driven: push the Phase 11 commit (`e51dc80`) manually, and optionally connect the
+repo to Netlify — `netlify.toml` deploys the static mock-first demo as-is. Backend `.env` is managed by the user.
