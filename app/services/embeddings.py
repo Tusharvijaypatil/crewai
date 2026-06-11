@@ -31,7 +31,10 @@ class Embedder:
 
         logger.info("loading_embedding_model", extra={"model": model_name})
         self._model = SentenceTransformer(model_name, cache_folder=_CACHE_FOLDER)
-        self._dimension = int(self._model.get_sentence_embedding_dimension())
+        # sentence-transformers 5.x renamed this; prefer the new name, fall back.
+        _dim_fn = getattr(self._model, "get_embedding_dimension", None) or \
+            self._model.get_sentence_embedding_dimension
+        self._dimension = int(_dim_fn())
         logger.info("embedding_model_ready", extra={"model": model_name, "dim": self._dimension})
 
     @property
