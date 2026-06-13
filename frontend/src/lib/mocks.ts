@@ -203,8 +203,8 @@ const SEEDS: TicketRequest[] = [
   { subject: 'We were double charged this month', body: 'Two identical Pro charges hit our card. Please refund the duplicate.', channel: 'email', customer_tier: 'pro' },
 ]
 
-let TICKETS: TicketTrace[] = []
-let ESCALATIONS: Escalation[] = []
+const TICKETS: TicketTrace[] = []
+const ESCALATIONS: Escalation[] = []
 let escId = 1
 
 function seed() {
@@ -215,7 +215,6 @@ function seed() {
     const created = new Date(Date.now() - spread[i] * 60_000).toISOString()
     t.created_at = created
     t.updated_at = created
-    t.trace.classification = t.trace.classification // keep
     TICKETS.push(t)
     if (t.escalated) {
       ESCALATIONS.push({

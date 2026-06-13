@@ -14,22 +14,24 @@ export function HealthPage() {
   const ingest = useIngest()
   const [progress, setProgress] = useState(0)
 
+  // The effect owns only the faux-progress timer; the initial/terminal progress
+  // values are set in the event handler and mutation callbacks (not in an effect).
   useEffect(() => {
     if (!ingest.isPending) return
-    setProgress(8)
     const id = setInterval(() => setProgress((p) => Math.min(92, p + Math.random() * 16)), 200)
     return () => clearInterval(id)
   }, [ingest.isPending])
 
-  useEffect(() => {
-    if (ingest.isSuccess) setProgress(100)
-  }, [ingest.isSuccess])
-
-  const runIngest = () =>
+  const runIngest = () => {
+    setProgress(8)
     ingest.mutate(undefined, {
-      onSuccess: (r) => toast.success(`Ingested ${r.documents} docs → ${r.chunks} chunks`),
+      onSuccess: (r) => {
+        setProgress(100)
+        toast.success(`Ingested ${r.documents} docs → ${r.chunks} chunks`)
+      },
       onError: () => toast.error('Ingest failed'),
     })
+  }
 
   return (
     <div className="space-y-6">

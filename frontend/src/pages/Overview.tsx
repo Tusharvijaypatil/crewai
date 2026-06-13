@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowUpRight, CheckCircle2, GaugeCircle, Inbox, Ticket } from 'lucide-react'
 
-import { ConfidenceMeter, EmptyState, ErrorState } from '@/components/bits'
+import { EmptyState, ErrorState } from '@/components/bits'
 import { Badge, Button, Card, Skeleton } from '@/components/ui'
 import { CATEGORY, PRIORITY, STATUS, confidenceTone } from '@/lib/domain'
 import { useEscalations, useTickets } from '@/lib/queries'
