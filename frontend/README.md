@@ -1,5 +1,7 @@
 # Nimbus — Frontend
 
+[![Frontend CI](https://github.com/Tusharvijaypatil/crewai/actions/workflows/frontend.yml/badge.svg)](https://github.com/Tusharvijaypatil/crewai/actions/workflows/frontend.yml)
+
 The web app for **Nimbus**, an autonomous support-ticket triage product: a marketing
 landing page and a product dashboard that visualizes the multi-agent pipeline
 (**Classify → Retrieve → Draft → QA → Route**). It's built against the FastAPI
