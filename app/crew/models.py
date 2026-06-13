@@ -7,12 +7,12 @@ the wire contract evolve independently.
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, Field, field_validator
 
 
-class Category(str, Enum):
+class Category(StrEnum):
     """Support ticket category."""
 
     BILLING = "billing"
@@ -22,7 +22,7 @@ class Category(str, Enum):
     OTHER = "other"
 
 
-class Priority(str, Enum):
+class Priority(StrEnum):
     """Ticket priority. P1 is the most urgent and always escalates."""
 
     P1 = "P1"
@@ -31,7 +31,7 @@ class Priority(str, Enum):
     P4 = "P4"
 
 
-class Sentiment(str, Enum):
+class Sentiment(StrEnum):
     """Customer sentiment expressed in the ticket."""
 
     POSITIVE = "positive"
@@ -39,7 +39,7 @@ class Sentiment(str, Enum):
     NEGATIVE = "negative"
 
 
-class TicketStatus(str, Enum):
+class TicketStatus(StrEnum):
     """Lifecycle status of a ticket after the pipeline runs."""
 
     RESOLVED = "RESOLVED"
