@@ -30,6 +30,10 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
+        # Treat empty-string env values (e.g. ``LLM_PROVIDER=`` in a .env or a CI
+        # secret that resolves blank) as *unset* so they fall back to the typed
+        # defaults below, instead of failing validation and crashing boot.
+        env_ignore_empty=True,
     )
 
     # ---- LLM ----

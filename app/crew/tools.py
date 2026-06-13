@@ -47,10 +47,25 @@ class KnowledgeBaseSearchTool(BaseTool):
         return self._kb
 
     def _run(self, query: str) -> str:
-        """Execute retrieval and return a readable, source-attributed result string."""
-        settings = get_settings()
-        kb = self._ensure_kb()
-        hits = kb.search(query, settings.retrieval_top_k)
+        """Execute retrieval and return a readable, source-attributed result string.
+
+        Any failure (embedding model load, vector-store error, an un-ingested
+        collection) is caught and returned as a descriptive ``ERROR:`` string. A
+        CrewAI tool must never raise into the agent executor — a raw exception would
+        abort the whole crew kickoff; a string lets the agent react (escalate) instead.
+        """
+        try:
+            settings = get_settings()
+            kb = self._ensure_kb()
+            hits = kb.search(query, settings.retrieval_top_k)
+        except Exception as exc:  # noqa: BLE001 - tools degrade gracefully, never raise
+            logger.error("kb_search_failed", extra={"query": query[:80], "error": repr(exc)})
+            return (
+                f"ERROR: the knowledge base search failed ({type(exc).__name__}). No "
+                "passages could be retrieved. Treat this ticket as having no supporting "
+                "documentation and escalate rather than guessing at an answer."
+            )
+
         logger.info("kb_search", extra={"query": query[:80], "hits": len(hits)})
 
         if not hits:
