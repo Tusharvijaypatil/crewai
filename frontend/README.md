@@ -14,8 +14,6 @@ queue — runs fully offline with **no backend and no API keys**.
 
 ## Screenshots
 
-> **TODO:** drop real captures into `frontend/docs/` — the references below are placeholders.
-
 | Landing | Dashboard | Pipeline |
 | --- | --- | --- |
 | ![Landing](./docs/landing.png) | ![Dashboard](./docs/dashboard.png) | ![Pipeline](./docs/pipeline.gif) |

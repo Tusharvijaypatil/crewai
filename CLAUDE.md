@@ -17,13 +17,11 @@ This is a **standalone** project — it does not import, reference, or reuse any
 - Phase 2 — Playwright e2e (submit → auto-resolve, mock build) — `0f32d42`
 - Phase 3 — OG image (`public/og.png` + `scripts/generate-og.mjs`) + OG/Twitter meta — `a97d703`
 - Phase 4 — `frontend/README.md` rewrite — `64c6b3d`
+- Phase 5 — GitHub Actions CI (`.github/workflows/frontend.yml`: lint + typecheck + test + build job, Playwright e2e job; `frontend/**` triggers, no deploy) + CI badge — `796323d`
+- Real deploy URL confirmed (`https://nimbus-triage.netlify.app/`) + real screenshots in `frontend/docs/` (`landing.png`, `dashboard.png`, `pipeline.gif`)
 
 **Pending**
-- Phase 5 — GitHub Actions CI: `frontend/**` triggers; lint + typecheck + `npm run test` + `npm run build`, plus a Playwright e2e job; CI badge at top of `frontend/README.md`. Host-agnostic, **no deploy step**.
-
-**Open TODOs (user-driven)**
-- Swap the placeholder `og:url`/`og:image` origin (`https://nimbus-triage.netlify.app`) in `frontend/index.html` for the real deploy URL.
-- Drop real screenshots into `frontend/docs/`: `landing.png`, `dashboard.png`, `pipeline.gif` (referenced by the README).
+- None — all five frontend-hardening phases complete. User pushes manually.
 
 ---
 
