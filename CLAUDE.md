@@ -5,6 +5,28 @@ This is a **standalone** project — it does not import, reference, or reuse any
 
 ---
 
+## Session handoff
+
+**Standing rules**
+- Portfolio repo — code quality + clean git history matter; **match existing patterns**, don't introduce new styling approaches or heavy deps.
+- Everything must build and run **offline in mock mode** (`VITE_USE_MOCKS=true`, default).
+- **No connectors, integrations, or deploys.** Local file edits + git commits only. User handles deployment manually.
+
+**Done so far** (frontend hardening; all commits **local, not pushed**)
+- Phase 1 — Vitest + RTL unit/component suite (22 tests) — `62a9840`
+- Phase 2 — Playwright e2e (submit → auto-resolve, mock build) — `0f32d42`
+- Phase 3 — OG image (`public/og.png` + `scripts/generate-og.mjs`) + OG/Twitter meta — `a97d703`
+- Phase 4 — `frontend/README.md` rewrite — `64c6b3d`
+
+**Pending**
+- Phase 5 — GitHub Actions CI: `frontend/**` triggers; lint + typecheck + `npm run test` + `npm run build`, plus a Playwright e2e job; CI badge at top of `frontend/README.md`. Host-agnostic, **no deploy step**.
+
+**Open TODOs (user-driven)**
+- Swap the placeholder `og:url`/`og:image` origin (`https://nimbus-triage.netlify.app`) in `frontend/index.html` for the real deploy URL.
+- Drop real screenshots into `frontend/docs/`: `landing.png`, `dashboard.png`, `pipeline.gif` (referenced by the README).
+
+---
+
 ## What this is
 
 A multi-agent system that ingests customer support tickets, retrieves answers from a knowledge
